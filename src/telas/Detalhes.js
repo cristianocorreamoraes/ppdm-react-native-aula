@@ -12,9 +12,9 @@ import capaLivro150 from '../assets/livros/lor150.png';
 
 import COLORS from "../const/colors"; 
 
-const Detalhes = ()=>{
+const Detalhes = ({route, navigation})=>{
 
-    const cod_livro = 1;
+    const {cod_livro} = route.params;
 
     const[livro, setLivro] = useState({
         cod_livro:'',
@@ -33,7 +33,19 @@ const Detalhes = ()=>{
                 }
             )
         }
-    );
+    ,[]);
+
+    /* ##### FUNÇÃO DE EXCLUSÃO DE LIVROS ##### */
+    const excluir =()=>{
+
+        try{
+
+            apiLivraria.delete(`/excluirLivros/${livro.cod_livro}`);
+            navigation.navigate('Listagem');
+
+        }catch(error){}
+
+    }
 
     return(
 
@@ -51,14 +63,14 @@ const Detalhes = ()=>{
                     
                     <TouchableOpacity
                         style={estilos.botao}
-                        onPress={()=>{}}>
+                        onPress={()=>{navigation.navigate('Editar',{cod_livro:livro.cod_livro})}}>
                         <Text style={[estilos.textoBotao, 
                                      {backgroundColor:COLORS.green}]}>EDITAR</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={estilos.botao}
-                        onPress={()=>{}}>
+                        onPress={()=>{excluir()}}>
                         <Text style={[estilos.textoBotao, 
                                      {backgroundColor:COLORS.red}]}>EXCLUIR</Text>
                     </TouchableOpacity>
